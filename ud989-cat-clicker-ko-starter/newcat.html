@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cat Clicker</title>
+    <script src="js/lib/knockout-3.2.0.js"></script>
+    <script src="js/app.js"></script>
+
+</head>
+<body>
+<ul id="cat-list" data-bind="foreach: initcat" >
+    <li data-bind="text: name"></li>
+</ul>
+<div id="cat">
+    <h2 id="cat-name" data-bind="text: name"></h2>
+    <h3 data-bind="text:level"></h3>
+    <div id="cat-count" data-bind="text: clickCount"></div>
+    <img id="cat-img" src="" data-bind="click:clickadd,attr:{src:imgSrc}">
+
+    <h1>nicknames</h1>
+    <ul data-bind="foreach: nicknames">
+        <li data-bind="text: $data"></li>
+    </ul>
+
+</div>
+
+<script>
+
+    var initcat = [
+        {   name:'Tigger',
+            imgSrc : 'img/22252709_010df3379e_z.jpg',
+            clickCount:0,
+           nicknames:['Tabtab','T-Bone','Mr. T','Tabitha Tab Tabby Catty Cat']
+        },
+        {   name:'Tom',
+            imgSrc : 'img/434164568_fea0ad4013_z.jpg',
+            clickCount:0,
+            nicknames:['Tabtab','T-Bone','Mr. T','Tabitha Tab Tabby Catty Cat']
+        },
+        {   name:'Jerry',
+            imgSrc : 'img/1413379559_412a540d29_z.jpg',
+            clickCount:0,
+            nicknames:['Tabtab','T-Bone','Mr. T','Tabitha Tab Tabby Catty Cat']
+        },
+        {   name:'Alex',
+            imgSrc : 'img/4154543904_6e2428c421_z.jpg',
+            clickCount:0,
+            nicknames:['Tabtab','T-Bone','Mr. T','Tabitha Tab Tabby Catty Cat']
+        },
+        {   name:'Hamster',
+            imgSrc : 'img/9648464288_2516b35537_z.jpg',
+            clickCount:0
+        }
+    ]
+
+
+
+
+  var viewModel = function(){
+
+        var self = this;
+        this.currentCat = ko.observableArray([]);
+        initcat.forEach(function(catlist){
+            self.currentCat.push(new Cat(catlist))
+        })
+
+
+
+
+     this.name = ko.observable('Tigger');
+    // this.level = ko.observable("newborn");
+     this.clickCount =ko.observable(0);
+      this.imgSrc = ko.observable('img/22252709_010df3379e_z.jpg');
+      this.nicknames=['Tabtab','T-Bone','Mr. T','Tabitha Tab Tabby Catty Cat'];
+
+
+      this.level = ko.computed(function() {
+          var click = this.clickCount();
+          var title;
+          if (click < 10) {
+              title= "Newborn"
+          }
+          else if (click < 50) {
+              title = "infant"
+          }
+          else if(click < 100){
+              title = "Child"
+          }
+          else if(click < 200){
+              title = "Teen"
+          }
+          else if(click < 500){
+              title = "Adult"
+          }
+          else{
+              title = "Ninja"
+          }
+          return title;
+      },this)
+      
+  }
+
+
+    var clickadd = function(){
+        this.clickCount(this.clickCount()+1)
+    }
+
+
+
+
+
+    ko.applyBindings(new viewModel())
+
+</script>
+
+</body>
+</html>
